@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Bundle Helper
-// @version         2.0.1
+// @version         2.0.2
 // @author          Dillon Regimbal
 // @namespace       https://dillonr.com
 // @description     Add tools for many bundle sites. Modified from https://greasyfork.org/scripts/16105-bundle-helper/
@@ -60,6 +60,7 @@
 
 // Since 2020-05-21
 // https://greasyfork.org/scripts/403878-bundle-helper
+// https://github.com/dregimbal/UserScripts/blob/master/BundleHelper.user.js
 
 (function () {
     'use strict'
