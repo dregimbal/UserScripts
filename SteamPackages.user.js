@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Free Steam Packages Redeemer
-// @version         1.0.0
+// @version         1.0.1
 // @author          Dillon Regimbal
 // @namespace       https://dillonr.com
 // @description     Automates sending requests to Steam. Get package list from https://steamdb.info/freepackages/
@@ -8,6 +8,9 @@
 // @grant           GM_getValue
 // @grant           GM_setValue
 // ==/UserScript==
+// Since 2020-05-21
+// https://greasyfork.org/en/scripts/403894-free-steam-packages-redeemer
+// https://github.com/dregimbal/UserScripts/blob/master/SteamPackages.user.js
 
 // To display the entire list (instead of just 50) at SteamDB, use the following style
 // #freepackages.package { display: block }
