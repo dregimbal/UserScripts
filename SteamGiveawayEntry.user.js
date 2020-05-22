@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            SteamGifts.com Giveaway Entry
-// @version         1.0.1
+// @version         1.0.2
 // @author          Dillon Regimbal
 // @namespace       https://dillonr.com
 // @description     Easily enter all visible giveaways. Pairs well with ESGST (https://github.com/rafaelgssa/esgst)
@@ -13,7 +13,7 @@
 // @noframes
 // ==/UserScript==
 // Since 2020-05-21
-// https://greasyfork.org/scripts/
+// https://greasyfork.org/en/scripts/403895-steamgifts-com-giveaway-entry
 // https://github.com/dregimbal/UserScripts/blob/master/SteamGiveawayEntry.user.js
 
 (function () {
