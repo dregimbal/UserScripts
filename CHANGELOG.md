@@ -2,6 +2,10 @@
 
 ## SteamGifts Giveaway Entry
 
+### 1.0.4 - Easier Delay Config
+
+- Added `entry_submission_delay_ms` to the configuration section to control the entry delay (default 200ms)
+
 ### 1.0.3 - Small QoL Improvements
 
 - Added a short delay between entries to avoid a soft-ban

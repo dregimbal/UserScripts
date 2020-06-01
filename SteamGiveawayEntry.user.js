@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            SteamGifts.com Giveaway Entry
-// @version         1.0.3
+// @version         1.0.4
 // @author          Dillon Regimbal
 // @namespace       https://dillonr.com
 // @description     Easily enter all visible giveaways. Pairs well with ESGST (https://github.com/rafaelgssa/esgst)
@@ -27,9 +27,19 @@
     let button_foreground_colour = '#FFFFFF'
     let button_font_size = '18px'
 
+    // The delay in milliseconds between each giveaway entry
+    // Setting it too low may cause SteamGifts to give you a soft-ban of a few days
+    let entry_submission_delay_ms = 200
+
+    // Whether the script should click the ESGST "Enter" buttons to enter the giveaways
     let esgst_entry_style = false
+
+    // If the script should click the ESGST "Refresh all pages" button after entering the giveaways
     let esgst_refresh_pages_after_entry = false
+
+    // If the script should attempt to close the ESGST modals after entering the giveaways
     let esgst_close_modals_after_entry = false
+
     let esgst_submit_button_selector = '.esgst-elgb-button .form__submit-button'
     let esgst_refresh_button_id = 'esgst-esRefreshAll'
     let esgst_modal_close_button_selector = '.esgst-popup-close'
@@ -137,7 +147,7 @@
                             finishedEnteringGiveaways()
                         } else {
                             // Continue entering giveaways
-                            setTimeout(enterGiveaway, 200)
+                            setTimeout(enterGiveaway, entry_submission_delay_ms)
                         }
                     }
                 })
@@ -171,7 +181,7 @@
             let giveaway = esgst_Giveaways.pop()
             giveaway.click()
             // Continue entering giveaways
-            setTimeout(esgst_SubmitGiveaway, 200)
+            setTimeout(esgst_SubmitGiveaway, entry_submission_delay_ms)
         } else {
             enterBtnA.textContent = no_giveaways_text
             finishedEnteringGiveaways()
