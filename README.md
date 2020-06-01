@@ -27,3 +27,15 @@ You can find a list of packages at [SteamDB](https://steamdb.info/freepackages/)
 Next, modify the integer array to an array of objects with id/name attributes. I recommend you use regular expressions or find/replace to get this done quickly.
 
 Finally, set the GreaseMonkey/TamperMonkey/ViolentMonkey variable `steamPackages` to your object array by uncommenting the `GM_setValue` line at the start of the script and inserting your array.
+
+## Return After Twitch Raid
+
+Adds buttons to the [Twitch](https://www.twitch.tv/) sidebar that enable you to automatically return to the stream you were watching after a raid.
+
+You can configure the time before returning in the Config section at the top of the script.
+
+The location button shows the return page, and clicking it will set the current URL to be the new destination.
+
+The return button will allow you to toggle on and off the redirection function. You are able to stay with the raid party by toggling the redirection off before the redirect occurs.
+
+The timer shows you the how long until the next raid check. Clicking the timer will reset the timer.
