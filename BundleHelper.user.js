@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Bundle Helper
-// @version         2.0.2
+// @version         2.0.3
 // @author          Dillon Regimbal
 // @namespace       https://dillonr.com
 // @description     Add tools for many bundle sites. Modified from https://greasyfork.org/scripts/16105-bundle-helper/
@@ -35,6 +35,8 @@
 // @match           *://www.sgtools.info/*
 // @match           *://steamkeys.ovh/*
 // @match           *://steamdb.info/*
+// @match           *://itch.io/*
+// @match           *://*.itch.io/*
 // @run-at          document-start
 // @grant           GM_addStyle
 // @grant           GM_xmlhttpRequest
@@ -539,6 +541,30 @@
                     })
                 }
                 addMarkBtnHandler(onClickFunction)
+            }
+        } else if (url.includes('itch.io')) {
+            if (url.includes('/my-collections') || url.includes('/my-purchases') || url.includes('/games') || url.includes('/s/') || url.includes('/c/') || url.includes('/b/')) {
+                GM_addStyle(
+                    ' .grid_outer .game_grid_widget .game_cell.bh_owned span, .grid_outer .game_grid_widget .game_cell.bh_owned div, .grid_outer .game_grid_widget .game_cell.bh_owned a { color: #ffffff !important; } '
+                )
+
+                addMarkBtnHandler(() => {
+                    let storePageLinkElements = document.querySelectorAll('.game_cell_data a.game_link')
+
+                    storePageLinkElements.forEach(storePageLinkElement => {
+                        if (!storePageLinkElement.href.includes('/b/')) {
+                            // Don't search bundle pages for Steam links
+                            if (typeof elementToMark === 'undefined' || elementToMark === null) {
+                                markByStorePageUrl(storePageLinkElement.href, default_steam_url_selector, storePageLinkElement.parentElement.parentElement.parentElement)
+                            }
+                        }
+                    })
+                })
+            } else if (url.includes('/recommendations')) {
+                GM_addStyle(
+                    ' .index_game_cell_widget.game_cell.bh_owned span, .index_game_cell_widget.game_cell.bh_owned div, .index_game_cell_widget.game_cell.bh_owned a.user_link { color: #ffffff; } '
+                )
+                addMarkBtnHandler(markByStorePageSelector, ['a.title', default_steam_url_selector, element => element.parentElement.parentElement])
             }
         } else if (url.includes('fanatical.com')) {
             GM_addStyle(

@@ -28,6 +28,19 @@
 
 ## Bundle Helper
 
+### 2.0.3 - Add support for itch.io
+
+- Add support for [itch.io](https://itch.io)
+- Works on
+  - [my-collections](https://itch.io/my-collections)
+  - [my-purchases](https://itch.io/my-purchases)
+  - [games](https://itch.io/games)
+  - [sales](https://itch.io/sales)
+  - [bundles](https://itch.io/bundles)
+  - [recommendations](https://itch.io/library/recommendations)
+  - most other collections
+- Added the `write_console_messages` config option, to enable/disable console messages
+
 ### 2.0.2 - Updated GitHub link
 
 - Update GitHub link
