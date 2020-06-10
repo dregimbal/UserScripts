@@ -65,6 +65,8 @@
 (function () {
     'use strict'
 
+    let write_console_messages = true
+
     let name_profile_json = 'bh_profile_json'
     let name_profile_time = 'bh_profile_time'
     let owned_item_class = 'bh_owned'
@@ -84,6 +86,12 @@
         document.addEventListener('DOMContentLoaded', function (e) {
             callback()
         })
+    }
+
+    function writeConsoleMessage(message) {
+        if (write_console_messages) {
+            console.log(message)
+        }
     }
 
     let timeoutList = []
@@ -123,9 +131,9 @@
         }
 
         if (!isExpired) {
-            console.log('Profile Cache Updated ' + profileTimestampDiff + 's ago')
+            writeConsoleMessage('Profile Cache Updated ' + profileTimestampDiff + 's ago')
         } else {
-            console.log('Profile Cache Expired: ' + profileTimestampDiff)
+            writeConsoleMessage('Profile Cache Expired: ' + profileTimestampDiff)
         }
 
         return isExpired
@@ -146,7 +154,7 @@
     function markOwned(query, getElementCallback, getProductIdCallback
         , classOwned, classNotInterested, classWished, getCountCallback) {
         if (!document.querySelector(query)) {
-            // console.log("markOwned: empty");
+            // writeConsoleMessage("markOwned: empty");
             return
         }
 
@@ -184,7 +192,7 @@
 
         let markFromJson = function (dataRes) {
             if (!dataRes) {
-                console.log('markFromJson: empty')
+                writeConsoleMessage('markFromJson: empty')
                 return
             }
 
@@ -192,12 +200,12 @@
             let countAll = [0, 0]
 
             let eleApps = document.querySelectorAll(query)
-            console.log(eleApps)
+            writeConsoleMessage(eleApps)
             for (let i = 0; i < eleApps.length; i++) {
                 let attrHref = getProductIdCallback(eleApps[i])
                 let ids = attrHref.match(rgxId)
                 if (ids) {
-                    // console.log('Matched ID "' + ids[0] + '" from url: ' + attrHref)
+                    // writeConsoleMessage('Matched ID "' + ids[0] + '" from url: ' + attrHref)
                     let valId = parseInt(ids[0])
                     if (rgxApp.test(attrHref)) {
                         if (isAppOwned(valId)) {
@@ -217,32 +225,32 @@
                                 ele.classList.add(classNotInterested)
                             }
                         } else {
-                            // console.log('App: Unowned - https://store.steampowered.com/app/' + valId + '/')
+                            // writeConsoleMessage('App: Unowned - https://store.steampowered.com/app/' + valId + '/')
                         }
 
                         countAll[0]++
                     } else if (rgxSub.test(attrHref)) {
                         if (steam_profile.rgOwnedPackages.indexOf(valId) > -1) {
-                            console.log('Sub: owned - https://store.steampowered.com/sub/' + valId + '/')
+                            writeConsoleMessage('Sub: owned - https://store.steampowered.com/sub/' + valId + '/')
                             let ele = getElementCallback(eleApps[i], 1)
                             if (ele && classOwned !== '') {
                                 ele.classList.add(classOwned)
                             }
                             countOwned[1]++
                         } else {
-                            // console.log('Sub: not owned - https://store.steampowered.com/sub/' + valId + '/')
+                            // writeConsoleMessage('Sub: not owned - https://store.steampowered.com/sub/' + valId + '/')
                         }
                         countAll[1]++
                     } else {
-                        console.log('Cannot determine url type: ' + attrHref)
+                        writeConsoleMessage('Cannot determine url type: ' + attrHref)
                     }
                 } else {
-                    console.log('Cannot match ID from url: ' + attrHref)
+                    writeConsoleMessage('Cannot match ID from url: ' + attrHref)
                 }
             }
 
-            console.log('App: Owned ' + countOwned[0] + '/' + countAll[0])
-            console.log('Sub: Owned ' + countOwned[1] + '/' + countAll[1])
+            writeConsoleMessage('App: Owned ' + countOwned[0] + '/' + countAll[0])
+            writeConsoleMessage('Sub: Owned ' + countOwned[1] + '/' + countAll[1])
 
             getCountCallback(countAll[0], countAll[1], countOwned[0], countOwned[1])
         }
@@ -256,7 +264,7 @@
                 method: 'GET',
                 url: 'https://store.steampowered.com/dynamicstore/userdata/?t=' + getUnixTimestamp(),
                 onload: function (response) {
-                    console.log('Steam User Data: ' + response.responseText.length + ' bytes')
+                    writeConsoleMessage('Steam User Data: ' + response.responseText.length + ' bytes')
 
                     let dataRes = JSON.parse(response.responseText)
 
@@ -308,10 +316,10 @@
      */
     function isAppOwned(steamID) {
         if (steam_profile.rgOwnedApps.includes(parseInt(steamID))) {
-            console.log('App: Owned - https://store.steampowered.com/app/' + steamID + '/')
+            writeConsoleMessage('App: Owned - https://store.steampowered.com/app/' + steamID + '/')
             return true
         }
-        // console.log('App: Unowned - https://store.steampowered.com/app/' + steamID + '/')
+        // writeConsoleMessage('App: Unowned - https://store.steampowered.com/app/' + steamID + '/')
         return false
     }
 
@@ -322,7 +330,7 @@
      */
     function isAppWishlisted(steamID) {
         if (steam_profile.rgWishlist.includes(parseInt(steamID))) {
-            console.log('App: Wishlisted - https://store.steampowered.com/app/' + steamID + '/')
+            writeConsoleMessage('App: Wishlisted - https://store.steampowered.com/app/' + steamID + '/')
             return true
         }
         return false
@@ -335,7 +343,7 @@
      */
     function isAppIgnored(steamID) {
         if (typeof steam_profile.rgIgnoredApps[steamID] !== 'undefined') {
-            console.log('App: Ignored - https://store.steampowered.com/app/' + steamID + '/')
+            writeConsoleMessage('App: Ignored - https://store.steampowered.com/app/' + steamID + '/')
             return true
         }
         return false
@@ -420,7 +428,7 @@
                         }
                     }
                 } else {
-                    console.warn('No steam links found on page "' + storePageUrl + '" with selector "' + selector + '"')
+                    writeConsoleMessage(`No steam links found on page "${storePageUrl}" with selector "${selector}"`)
                 }
             }
         })
@@ -445,6 +453,7 @@
                 let element = elementToMark(storePageLinkElement)
                 markByStorePageUrl(storePageLinkElement.href, steamLinkSelector, element)
             } else {
+                writeConsoleMessage(storePageLinkElement)
                 markByStorePageUrl(storePageLinkElement, steamLinkSelector, elementToMark)
             }
         })
@@ -571,7 +580,7 @@
                     let ownedGames = []
                     productsArr.forEach(product => {
                         if (isAppOwned(product.steam.id)) {
-                            console.log('You own game ID: ' + product.steam.id + ' - "' + product.name + '"')
+                            writeConsoleMessage('You own game ID: ' + product.steam.id + ' - "' + product.name + '"')
                             ownedGames.push(product.name)
                         }
                     })
@@ -607,7 +616,7 @@
                             },
                             url: gamePage,
                             onload: function (response) {
-                                // console.log('status ' + response.status + ' ' + gamePage)
+                                // writeConsoleMessage('status ' + response.status + ' ' + gamePage)
                                 if (response.status === 200) {
                                     let apiResponse = JSON.parse(response.responseText)
                                     if (typeof apiResponse.steam.id !== 'undefined') {
@@ -887,7 +896,7 @@
                     return index === self.indexOf(elem)
                 })
 
-                console.log('Apps: ' + apps.length)
+                writeConsoleMessage('Apps: ' + apps.length)
                 let appAll = apps.join(',')
 
                 GM_xmlhttpRequest(
@@ -916,17 +925,17 @@
                                                     eleLabel.classList.add('bh_owned')
                                                     countOwned++
                                                 } else {
-                                                    // console.log("App: not owned - http://store.steampowered.com/app/" + app + "/");
+                                                    // writeConsoleMessage("App: not owned - http://store.steampowered.com/app/" + app + "/");
                                                 }
                                             } else {
-                                                // console.log("App: not success - https://steamdb.info/app/" + app + "/");
+                                                // writeConsoleMessage("App: not success - https://steamdb.info/app/" + app + "/");
                                             }
                                         }
                                     }
                                 }
                             }
 
-                            console.log('Apps: owned - ' + countOwned)
+                            writeConsoleMessage('Apps: owned - ' + countOwned)
                         }
                         // End onload
                     })
@@ -1120,14 +1129,14 @@
                                             }
                                         }
                                         if (!isMatch) {
-                                            console.log('Not match: ' + elesGame[i].href + ' ' + elesGame[i].textContent)
+                                            writeConsoleMessage('Not match: ' + elesGame[i].href + ' ' + elesGame[i].textContent)
                                         }
                                     }
 
                                     if (arrTitle.length > 0) {
-                                        console.log('Not match: ' + arrTitle.length)
+                                        writeConsoleMessage('Not match: ' + arrTitle.length)
                                         for (let i = 0; i < arrTitle.length; i++) {
-                                            console.log('Not match: ' + arrTitle[i])
+                                            writeConsoleMessage('Not match: ' + arrTitle[i])
                                         }
                                     }
 
