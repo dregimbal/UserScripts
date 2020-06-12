@@ -63,6 +63,10 @@
 
 ## Itchio Show Categories
 
+### 0.0.3 - Added GreasyFork link
+
+- Script is now available on [GreasyFork](https://greasyfork.org/en/scripts/405228-itchio-show-categories)
+
 ### 0.0.2 - Support bundle pages
 
 - Added support for bundle pages like [this one](https://itch.io/b/520/bundle-for-racial-justice-and-equality)

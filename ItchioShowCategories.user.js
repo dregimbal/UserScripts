@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Itchio Show Categories
-// @version         0.0.2
+// @version         0.0.3
 // @author          Dillon Regimbal
 // @namespace       https://dillonr.com
 // @description     Displays tag categories of games on itch.io
@@ -17,6 +17,7 @@
 
 // Since 2020-06-12
 // https://greasyfork.org/en/users/420789-dillon-regimbal
+// https://greasyfork.org/en/scripts/405228-itchio-show-categories
 // https://github.com/dregimbal/UserScripts/blob/master/ItchioShowCategories.user.js
 
 (function () {
