@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Itchio Show Categories
-// @version         0.0.1
+// @version         0.0.2
 // @author          Dillon Regimbal
 // @namespace       https://dillonr.com
 // @description     Displays tag categories of games on itch.io
@@ -31,8 +31,7 @@
     let btn_category_class = 'dr_category_button'
     let btn_category_id = 'dr_markCategory'
     let btn_category_text = 'Checked 0/0'
-
-    let game_store_link_selector = '.game_cell_data a.game_link'
+    let game_store_link_selector = '.game_cell_data a.game_link, .bundle_game_grid_widget .game_cell a.title'
     let category_text_class = 'dr_category_text'
     let meta_tag_class = 'meta_tag'
     let game_cell_class = 'game_cell'
@@ -124,10 +123,11 @@
         line-height: 16px;
     }
 
-    .${game_cell_class} .${game_cell_data_class} a.${category_text_class}.${meta_tag_class} {
+    .${game_cell_class} .${game_cell_data_class} a.${category_text_class}.${meta_tag_class}, .${game_cell_class} a.${category_text_class}.${meta_tag_class}  {
         padding: 3px;
         margin: 2px;
         font-size: 14px;
+        color: #ffffff;
         background-color: #17199d;
     }
 

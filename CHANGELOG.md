@@ -63,6 +63,10 @@
 
 ## Itchio Show Categories
 
+### 0.0.2 - Support bundle pages
+
+- Added support for bundle pages like [this one](https://itch.io/b/520/bundle-for-racial-justice-and-equality)
+
 ### 0.0.1 - Initial Release
 
 - Initial Release
