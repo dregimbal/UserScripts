@@ -64,6 +64,7 @@
             1,
             {
                 "allow": [
+                    "assert",
                     "warn",
                     "error",
                     "log"

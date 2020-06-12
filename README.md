@@ -39,3 +39,7 @@ The location button shows the return page, and clicking it will set the current 
 The return button will allow you to toggle on and off the redirection function. You are able to stay with the raid party by toggling the redirection off before the redirect occurs.
 
 The timer shows you the how long until the next raid check. Clicking the timer will reset the timer.
+
+## Itchio Show Categories
+
+Adds a button to [itch.io](https://itch.io/) that will add category tags for games

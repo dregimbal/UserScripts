@@ -554,9 +554,7 @@
                     storePageLinkElements.forEach(storePageLinkElement => {
                         if (!storePageLinkElement.href.includes('/b/')) {
                             // Don't search bundle pages for Steam links
-                            if (typeof elementToMark === 'undefined' || elementToMark === null) {
-                                markByStorePageUrl(storePageLinkElement.href, default_steam_url_selector, storePageLinkElement.parentElement.parentElement.parentElement)
-                            }
+                            markByStorePageUrl(storePageLinkElement.href, default_steam_url_selector, storePageLinkElement.parentElement.parentElement.parentElement)
                         }
                     })
                 })

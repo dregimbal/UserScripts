@@ -60,3 +60,17 @@
 
 - Initial Release
 - Helps bulk redeem free Steam packages
+
+## Itchio Show Categories
+
+### 0.0.1 - Initial Release
+
+- Initial Release
+- Displays category tags on games on [itch.io](https://itch.io)
+- Categories include:
+  - Controller support
+  - Local multiplayer
+  - Co-op
+  - Networked multiplayer
+  - Physical/tabletop game
+  - Smartphone controller
