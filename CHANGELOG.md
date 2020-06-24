@@ -28,6 +28,10 @@
 
 ## Bundle Helper
 
+### 2.0.4 - Fix Humble
+
+- Fixed highlighting support on [Humble Bundle](https://www.humblebundle.com/subscription?refc=hqunB4)
+
 ### 2.0.3 - Add support for itch.io
 
 - Add support for [itch.io](https://itch.io)

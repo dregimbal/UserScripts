@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name            Bundle Helper
-// @version         2.0.3
+// @version         2.0.4
 // @author          Dillon Regimbal
 // @namespace       https://dillonr.com
-// @description     Add tools for many bundle sites. Modified from https://greasyfork.org/scripts/16105-bundle-helper/
+// @description     Highlights games you already own on Steam, on other sites. Modified from https://greasyfork.org/scripts/16105-bundle-helper/
 // @match           *://cubicbundle.com/*
 // @match           *://dailyindiegame.com/*
 // @match           *://forums.steampowered.com/forums/showthread.php?*
@@ -462,6 +462,36 @@
         return
     }
 
+    async function GetSteamAppList() {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                GM_xmlhttpRequest({
+                    method: 'GET',
+                    url: 'https://api.steampowered.com/ISteamApps/GetAppList/v2/',
+                    onload: response => {
+                        setTimeout(function () {
+                            if (response.status !== 200) {
+                                reject([
+                                    response.status,
+                                    response.statusText,
+                                    response.readyState,
+                                    response.responseHeaders,
+                                    response.finalUrl
+                                ].join(', '))
+                            } else {
+                                let appList = JSON.parse(response.responseText).applist.apps
+                                appList.forEach(app => {
+                                    app.name = app.name.toLowerCase().replace(/[^a-z0-9]/g, '')
+                                })
+                                resolve(appList)
+                            }
+                        }, 0)
+                    }
+                })
+            }, 0)
+        })
+    }
+
     function main() {
         if (window !== window.parent) {
             // https://developer.mozilla.org/en-US/docs/Web/API/Window/parent
@@ -859,32 +889,71 @@
         } else if (url.includes('humblebundle.com')) {
             GM_addStyle(
                 '   .game-box img { max-height: 180px !important; max-width: 130px !important; } '
-                + ' .image-grid { animation: none !important; } '
+                + ' .image-grid { animation: none !important; } ' +
+                ' .bh_owned .entity-details, .bh_owned div.entity-meta, .bh_owned div.entity-meta span.entity-title { background: #7CA156 !important; color: #FFFFFF !important; } ' +
+                ' div.slick-track .bh_owned div.entity-meta { background: transparent !important; } '
             )
+
             if (url.includes('/games/')) {
+                GM_addStyle(
+                    ' .bh-owned div.dd-image-box-caption-container { background: #7CA156 !important; } ' +
+                    ' .bh-owned span.front-page-art-image-text { color: #FFFFFF !important; } '
+                )
                 let onClickFunction = function () {
-                    let gameBrowserLinks = document.querySelectorAll(default_steam_url_selector)
-                    for (let i = 0; i < gameBrowserLinks.length; i++) {
-                        let steamID = getSteamIDFromString(gameBrowserLinks[i].href)
-                        if (steamID !== null) {
-                            if (isAppOwned(steamID)) {
-                                setElementOwned(gameBrowserLinks[i].parentElement.parentElement.parentElement.parentElement)
+                    GetSteamAppList()
+                        .then(appList => {
+                            let gameTitleElements = document.querySelectorAll('span.front-page-art-image-text')
+                            for (let gameTitleElement of gameTitleElements) {
+                                let gameName = gameTitleElement.textContent.toLowerCase().replace(/[^a-z0-9]/g, '')
+                                let matches = appList.filter(app => app.name === gameName)
+                                for (let match of matches) {
+                                    if (isAppOwned(match.appid)) {
+                                        setElementOwned(gameTitleElement.parentElement.parentElement.parentElement.parentElement)
+                                        break
+                                    }
+                                }
                             }
-                        }
-                    }
+                        })
                 }
                 addMarkBtnHandler(onClickFunction)
             } else if (url.includes('/store')) {
                 let onClickFunction = function () {
-                    let gameBrowserLinks = document.querySelectorAll(default_steam_url_selector)
-                    for (let i = 0; i < gameBrowserLinks.length; i++) {
-                        let steamID = getSteamIDFromString(gameBrowserLinks[i].href)
-                        if (steamID !== null) {
-                            if (isAppOwned(steamID)) {
-                                setElementOwned(gameBrowserLinks[i].parentElement.parentElement)
+                    GetSteamAppList()
+                        .then(appList => {
+                            let gameTitleElements = document.querySelectorAll('span.entity-title')
+                            for (let gameTitleElement of gameTitleElements) {
+                                let gameName = gameTitleElement.textContent.toLowerCase().replace(/[^a-z0-9]/g, '')
+                                let matches = appList.filter(app => app.name === gameName)
+                                for (let match of matches) {
+                                    if (isAppOwned(match.appid)) {
+                                        setElementOwned(gameTitleElement.parentElement.parentElement)
+                                        break
+                                    }
+                                }
                             }
-                        }
-                    }
+                        })
+                }
+                addMarkBtnHandler(onClickFunction)
+            } else if (url.includes('/subscription')) {
+                GM_addStyle(
+                    ' .bh-owned div { background: #7CA156 !important; } ' +
+                    ' .bh-owned .content-choice-title { color: #FFFFFF !important; } '
+                )
+                let onClickFunction = function () {
+                    GetSteamAppList()
+                        .then(appList => {
+                            let gameTitleElements = document.querySelectorAll('span.content-choice-title')
+                            for (let gameTitleElement of gameTitleElements) {
+                                let gameName = gameTitleElement.textContent.toLowerCase().replace(/[^a-z0-9]/g, '')
+                                let matches = appList.filter(app => app.name === gameName)
+                                for (let match of matches) {
+                                    if (isAppOwned(match.appid)) {
+                                        setElementOwned(gameTitleElement.parentElement.parentElement)
+                                        break
+                                    }
+                                }
+                            }
+                        })
                 }
                 addMarkBtnHandler(onClickFunction)
             }
