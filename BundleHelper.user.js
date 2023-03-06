@@ -779,7 +779,7 @@
                 countRetryTitle--
             }, 3000)
 
-            if (url.includes('indiegala.com/store/') || url.includes('indiegala.com/games') || url === 'https://www.indiegala.com/') {
+            if (url.includes('indiegala.com/store/') || url.includes('indiegala.com/games') || url === 'https://www.indiegala.com/  || url.includes('indiegala.com/giveaways') ||') {
                 let onClickFunction = function () {
                     let gameBrowserLinks = document.querySelectorAll('a.main-list-item-clicker')
                     for (let i = 0; i < gameBrowserLinks.length; i++) {
@@ -797,6 +797,17 @@
                         if (steamID !== null) {
                             if (isAppOwned(steamID)) {
                                 setElementOwned(smallListLinks[i].parentElement.querySelector('.item-inner'))
+                            }
+                        }
+                    }
+                    
+                    let giveawayLinks = document.querySelectorAll('.items-list-item .relative figure a img')
+                    for (let i = 0; i < giveawayLinks.length; i++) {
+                        let steamID = getSteamIDFromString(giveawayLinks[i].src)
+                        if (steamID !== null) {
+                            if (isAppOwned(steamID)) {
+                                let markedItem = giveawayLinks[i].parentElement.parentElement.parentElement
+                                setElementOwned(markedItem)
                             }
                         }
                     }
