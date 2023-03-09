@@ -779,7 +779,7 @@
                 countRetryTitle--
             }, 3000)
 
-            if (url.includes('indiegala.com/store/') || url.includes('indiegala.com/games') || url === 'https://www.indiegala.com/  || url.includes('indiegala.com/giveaways') ||') {
+            if (url.includes('indiegala.com/store/') || url.includes('indiegala.com/games') || url === 'https://www.indiegala.com/'  || url.includes('indiegala.com/giveaways')) {
                 let onClickFunction = function () {
                     let gameBrowserLinks = document.querySelectorAll('a.main-list-item-clicker')
                     for (let i = 0; i < gameBrowserLinks.length; i++) {
